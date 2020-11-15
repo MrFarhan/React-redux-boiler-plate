@@ -28,18 +28,15 @@ export const Login = () => {
                 <Form.Control type="email" placeholder="Enter email" autoFocus />
 
             </Form.Group>
-            <br />
 
             <Form.Group controlId="formBasicPassword">
                 <Form.Label>Password</Form.Label>
                 <Form.Control type="password" placeholder="Password" />
             </Form.Group>
-            <br />
 
             <Form.Group controlId="formBasicCheckbox">
                 <Form.Check type="checkbox" label="Remember me" />
             </Form.Group>
-            <br />
 
             <Button variant="primary" type="submit" onClick={Signin}>
                 <FiLogIn /> Login

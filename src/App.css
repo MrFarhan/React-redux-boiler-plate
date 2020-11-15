@@ -1,6 +1,5 @@
 body {
   text-align: center;
-  background-color: antiquewhite;
   justify-content: center;
   display: flex;
 }
@@ -26,3 +25,27 @@ Form{
   margin-left: 12em;
 }
 
+ .radiogroup{
+  display: flex;
+  width: auto;
+}
+
+.radiogroupledger{
+  width: auto;
+}
+
+
+
+.checkbox{
+  /* padding: 0em 0em 0em 3.25em; */
+  width: auto;
+  padding-left: 5rem !important;
+  display: flex !important; 
+  align-items: center;
+
+}
+
+
+.form-check-input{
+  margin-top: 0 !important;
+}

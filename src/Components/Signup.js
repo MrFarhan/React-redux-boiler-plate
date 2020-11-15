@@ -24,30 +24,30 @@ export const Signup = () => {
                 </Form.Group>
 
                 <Form.Group controlId="formHorizontalPassword">
-                    <Form.Label column sm={2}>
+                    <Form.Label >
                         Password
                 </Form.Label>
                     <Form.Control type="password" placeholder="Password" />
                 </Form.Group>
 
 
-                <Form.Group>
-                    <Form.Label as="legend" column sm={2}>
+                <Form.Group className="radiogroup">
+                    <Form.Label as="legend" className="radiogroupledger">
                         Gender
-                         </Form.Label>
-                    <Form.Check
+                    </Form.Label> 
+                    <Form.Check className="checkbox"
                         type="radio"
                         label="Male"
                         name="formHorizontalRadios"
                         id="formHorizontalRadios1"
                     />
-                    <Form.Check
+                    <Form.Check className="checkbox"
                         type="radio"
                         label="Female"
                         name="formHorizontalRadios"
                         id="formHorizontalRadios2"
                     />
-                    <Form.Check
+                    <Form.Check className="checkbox"
                         type="radio"
                         label="Rather not to say"
                         name="formHorizontalRadios"
