@@ -1,11 +1,24 @@
-export default function Reducer (state ,{type,payload}){
-    switch(type){
-        case "TEST":
-            return{
+import { NAME , EMAIL} from './ActionTypes'
+
+export const initialState = {
+    name:"",
+    email:"",
+}
+
+export default function Reducer(state = initialState, { type, payload }) {
+    switch (type) {
+        case NAME:
+            console.log(payload)
+            return {
                 ...state,
                 name: payload
-            }        
-            default:
+            }
+        case EMAIL:
+            return {
+                ...state,
+                email: payload
+            }
+        default:
             return state
     }
 }

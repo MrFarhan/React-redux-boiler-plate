@@ -1,10 +1,8 @@
 import {createStore} from "redux"
-import Reducer from "./Reducer"
+import Reducer, { initialState } from "./Reducer"
 
 
-const initialState = {
-    name:"John"
-}
+
 
 export const store  = createStore(
     Reducer,
