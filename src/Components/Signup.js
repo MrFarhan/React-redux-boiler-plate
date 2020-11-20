@@ -1,124 +1,109 @@
-import React, { useState } from 'react'
-import { Form, Button } from 'react-bootstrap'
-import { useHistory } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { emailAction, nameAction } from '../Redux/Actions'
-
-export const Signup = () => {
-
-    const [uName, setUname] = useState("")
-    const [uEmail, setUemali] = useState("")
-    const [pass, setPass] = useState("")
-    const [confirmPass, doConfirmPassword] = useState("")
-    const [gender, setGender] = useState(false)
-    const dispatch = useDispatch()
-
-    const name = useSelector(state => state.name)
-    // const email = useSelector(state => state.email)
-    console.log(name, "name")
-    let history = useHistory()
-    const signin = () => {
-        history.push("/")
-    }
-
-    const signup = () => {
-
-        if (uName?.length < 3) {
-            alert("username must be 3 charactors long")
-        }
-        else if (pass?.length < 5) {
-            alert("password mush be greater then 5")
-        }
-        else if (pass !== confirmPass) {
-            alert("password and confirm password doesn't match")
-        }
-        else if (!gender) {
-            alert("please select gender")
-        }
-         else {
-            dispatch(nameAction(uName))
-            dispatch(emailAction(uEmail))
-            history.push("/dashboard")
-        }
-    }
+import React from 'react';
+import { Formik, Form, useField } from 'formik';
+import * as Yup from 'yup';
+import '../App.css';
 
 
-    const SelectGender = (e) => {
-        console.log(e.target.value)
-        setGender(e.target.value)
-    }
+const MyTextInput = ({ label, ...props }) => {
+    // useField() returns [formik.getFieldProps(), formik.getFieldMeta()]
+    // which we can spread on <input>. We can use field meta to show an error
+    // message if the field is invalid and it has been touched (i.e. visited)
+    const [field, meta] = useField(props);
     return (
-        <div>
-            <Form onSubmit={(e) => e.preventDefault()}>
-
-                <Form.Group >
-                    <Form.Label >
-                        User Name
-                 </Form.Label>
-                    <Form.Control type="text" placeholder="User Name" onChange={(e) => { setUname(e.target.value) }} value={uName} required />
-                </Form.Group>
-
-                <Form.Group >
-                    <Form.Label >
-                        Email
-                 </Form.Label>
-                    <Form.Control type="email" placeholder="Email" onChange={(e) => { setUemali(e.target.value) }} value={uEmail} required />
-                </Form.Group>
-
-                <Form.Group >
-                    <Form.Label >
-                        Password
-                </Form.Label>
-                    <Form.Control type="password" placeholder="Password" onChange={(e) => { setPass(e.target.value) }} value={pass} required />
-                </Form.Group>
-
-                <Form.Group >
-                    <Form.Label >
-                        Confirm Password
-                </Form.Label>
-                    <Form.Control type="password" placeholder="Password" onChange={(e) => { doConfirmPassword(e.target.value) }} value={confirmPass} required />
-                </Form.Group>
-
-
-                <Form.Group className="radiogroup">
-                    <Form.Label as="legend" className="radiogroupledger">
-                        Gender
-                    </Form.Label>
-                    <Form.Check className="checkbox"
-                        type="radio"
-                        label="Male"
-                        value="Male"
-                        name="formHorizontalRadios"
-                        id="formHorizontalRadios1"
-                        onClick={SelectGender}
-                    />
-                    <Form.Check className="checkbox"
-                        type="radio"
-                        label="Female"
-                        value="Female"
-                        name="formHorizontalRadios"
-                        id="formHorizontalRadios2"
-                        onClick={SelectGender}
-                    />
-                    <Form.Check className="checkbox"
-                        type="radio"
-                        label="Rather not to say"
-                        value="Rather not to say"
-                        name="formHorizontalRadios"
-                        id="formHorizontalRadios3"
-                        onClick={SelectGender}
-                    />
-                </Form.Group>
-
-                <Form.Group controlId="formHorizontalCheck">
-                    <Form.Check label="Remember me" />
-                </Form.Group>
-
-                <Form.Group>
-                    <Button type="submit" onClick={signup}>Sign Up</Button>
-                </Form.Group>
-            </Form>
-            <Button variant="link" onClick={signin}>Already have an account</Button>
+        <div className="maininputlabel">
+            <label htmlFor={props.id || props.name}>{label}</label>
+            <div className="text-input" > <input {...field} {...props} />
+                {meta.touched && meta.error ? (
+                    <span className="error">{meta.error}</span>
+                ) : null}</div>
         </div>
-    )
-}
+    );
+};
+
+const MyCheckbox = ({ children, ...props }) => {
+    // React treats radios and checkbox inputs differently other input types, select, and textarea.
+    // Formik does this too! When you specify `type` to useField(), it will
+    // return the correct bag of props for you
+    const [field, meta] = useField({ ...props, type: 'checkbox' });
+    return (
+        <div className="maininputlabel">
+            <label className="checkbox1">
+                <input type="checkbox" {...field} {...props} />
+                {children}
+                {meta.touched && meta.error ? (
+                    <div className="error">{meta.error}</div>
+                ) : null}
+            </label>
+        </div>
+    );
+};
+
+
+
+// And now we can use these
+export const Signup = () => {
+    return (
+        <>
+            <p className="cntr">Signup to continue using our service!</p>
+            <Formik
+                initialValues={{
+                    firstName: '',
+                    lastName: '',
+                    email: '',
+                    acceptedTerms: false, // added for our checkbox
+                    gender: '', // added for our select
+                }}
+                validationSchema={Yup.object({
+                    firstName: Yup.string()
+                        .max(15, 'Must be 15 characters or less')
+                        .required('Required'),
+                    lastName: Yup.string()
+                        .max(20, 'Must be 20 characters or less')
+                        .required('Required'),
+                    email: Yup.string()
+                        .email('Invalid email address')
+                        .required('Required'),
+                    acceptedTerms: Yup.boolean()
+                        .required('Required')
+                        .oneOf([true], 'You must accept the terms and conditions.'),
+                    gender: Yup.boolean()
+                        .required('Required'),
+                })}
+                onSubmit={(values, { setSubmitting }) => {
+                    //    setTimeout(() => {
+                    //      alert(JSON.stringify(values, null, 2));
+                    //      setSubmitting(false);
+                    //    }, 400);
+                }}
+            >
+                <Form>
+                    <MyTextInput
+                        label="First Name"
+                        name="firstName"
+                        type="text"
+                        placeholder="first name"
+                        fullwidth
+                    />
+                    <MyTextInput
+                        label="Last Name"
+                        name="lastName"
+                        type="text"
+                        placeholder="last Name"
+                    />
+                    <MyTextInput
+                        label="Email Address"
+                        name="email"
+                        type="email"
+                        placeholder="jane@formik.com"
+                    />
+
+                    <MyCheckbox name="acceptedTerms">
+                        I accept the terms and conditions
+           </MyCheckbox>
+
+                    <button type="submit">Submit</button>
+                </Form>
+            </Formik>
+        </>
+    );
+};

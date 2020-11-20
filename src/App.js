@@ -6,6 +6,7 @@ import { Dashboard } from './Components/Dashboard';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Provider} from 'react-redux';
 import {store } from './Redux/Store' 
+import {Test} from './Test';
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
             <Route exact path="/" >  <Login /></Route>
             <Route path="/signup" ><Signup /></Route>
             <Route path="/dashboard" ><Dashboard /></Route>
+            <Route path="/test" ><Test /></Route>
+
           </Switch>
 
          

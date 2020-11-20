@@ -49,3 +49,45 @@ Form{
 .form-check-input{
   margin-top: 0 !important;
 }
+
+.error{
+  color: red;
+  padding: 0px !important;
+
+}
+
+.checkbox{
+  padding: 0px !important;
+}
+
+
+.text-input{
+width: 70%;
+display: inline-block;
+}
+
+
+.checkbox1{
+  width: 70%; 
+   display: inline-block;
+  
+}
+
+.text-input input {
+  width: 100%;
+}
+label{
+  width: 20%;
+  padding: 0.5em;
+  }
+
+.cntr{
+  text-align: center;
+  justify-content: center;
+  display: flex;
+}
+
+
+.maininputlabel{
+  display: flex;
+}
